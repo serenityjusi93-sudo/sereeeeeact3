@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2026 Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .month {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .month-name {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            background: #34495e;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .weekday {
+            padding: 10px 5px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+        .day {
+            padding: 15px 5px;
+            text-align: center;
+            background: white;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .day:hover {
+            background: #ecf0f1;
+        }
+        .other {
+            background: #ecf0f1;
+            color: #bdc3c7;
+        }
+        .today {
+            background: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>2026 Calendar</h1>
+    <div class="calendar" id="calendar"></div>
+
+    <script>
+        const months = ["January", "February", "March", "April", "May", "June", 
+                       "July", "August", "September", "October", "November", "December"];
+        const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+        function createCalendar() {
+            let html = "";
+            
+            for(let month = 0; month < 12; month++) {
+                html += `<div class="month">`;
+                html += `<div class="month-name">${months[month]} 2026</div>`;
+                
+                // Weekday headers
+                html += `<div class="weekdays">`;
+                for(let day of weekdays) {
+                    html += `<div class="weekday">${day}</div>`;
+                }
+                html += `</div>`;
+                
+                // Days grid
+                html += `<div class="days">`;
+                
+                let firstDay = new Date(2026, month, 1).getDay();
+                let daysInMonth = new Date(2026, month + 1, 0).getDate();
+                
+                // Empty cells before month starts
+                for(let i = 0; i < firstDay; i++) {
+                    html += `<div class="day other"></div>`;
+                }
+                
+                // Days of the month
+                for(let day = 1; day <= daysInMonth; day++) {
+                    html += `<div class="day">${day}</div>`;
+                }
+                
+                // Fill remaining cells to complete 6 rows
+                let totalCells = firstDay + daysInMonth;
+                while(totalCells % 7 !== 0) {
+                    html += `<div class="day other"></div>`;
+                    totalCells++;
+                }
+                
+                html += `</div></div>`;
+            }
+            
+            document.getElementById('calendar').innerHTML = html;
+        }
+        
+        createCalendar();
+    </script>
+</body>
+</html>
